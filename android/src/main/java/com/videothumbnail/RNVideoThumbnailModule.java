@@ -1,5 +1,5 @@
 package com.videothumbnail;
-
+import java.lang.Double; 
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.util.Base64;
@@ -38,15 +38,17 @@ public class RNVideoThumbnailModule extends ReactContextBaseJavaModule {
     if (image != null) {
         String encoded = "data:image/png;base64," + convertBitmapToBase64(image);
         WritableMap map = Arguments.createMap();
-
+        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        double duration = Double.parseDouble(time );
         map.putString("data", encoded);
+        map.putDouble("duration", duration);
         map.putDouble("width", image.getWidth());
         map.putDouble("height", image.getHeight());
-
         promise.resolve(map);
     } else {
       promise.reject("E_RNVideoThumbnail_ERROR", "could not get thumbnail");
     }
+    retriever.release();
   }
 
   private String convertBitmapToBase64(Bitmap bitmap) {
