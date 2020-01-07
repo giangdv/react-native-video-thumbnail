@@ -39,7 +39,8 @@ public class RNVideoThumbnailModule extends ReactContextBaseJavaModule {
         String encoded = "data:image/png;base64," + convertBitmapToBase64(image);
         WritableMap map = Arguments.createMap();
         String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        double duration = Double.parseDouble(time );
+        double duration = Double.parseDouble(time);
+        duration = duration / 1000;
         map.putString("data", encoded);
         map.putDouble("duration", duration);
         map.putDouble("width", image.getWidth());
